@@ -5,13 +5,12 @@ import java.util.*;
 class Prism {
 
     int side1, side2, side3;
-    int orientation = 0;
+    int orientation = -1;
     
     public Prism(){
-
-        side1 = 0;
-        side2 = 0;
-        side3 = 0;
+        side1 = -1;
+        side2 = -1;
+        side3 = -1;
     }
 
     public Prism(int color1, int color2, int color3){
@@ -59,22 +58,40 @@ class Prism {
 }
 
 class solve{
-    public static void main(String [] Args){
+    /**
+     * Main program
+     */
+    public static void main(String[] Args){
         HashMap<Integer, Prism> puzzle = generatePuzzle1();
-        printPuzzle(puzzle);
+        // printPuzzle(puzzle);
+        HashMap<Integer, Integer> histogram = generateHistogram(puzzle);
+        int startingColor = largestColor(histogram);
+        // printHistogram(histogram, startingColor);
+        if(validHistogram(histogram, startingColor)){
+            //find solution
+        }else{
+            //min obstacle
+        }
+
     }
 
+    /**
+     * Generates 1st puzzle using first formula
+     * @return the puzzle
+     */
     public static HashMap<Integer, Prism> generatePuzzle1(){
 
         HashMap <Integer,Prism> output = new HashMap<Integer, Prism>();
         int currentPos = 0;
-        int[] list = new int[300];
+        int[] list = new int[300]; // generate list with indexes 0 - 299
 
 
+        //create list of values to be used by puzzle
         for(int i = 1; i <= 300; i++){
             list[i-1] = 1 + (((int) Math.floor(i*Math.PI)) % 100);
         }
 
+        //generate the puzzle with random colors created
         for(int i = 0; i < 300; i = i+3){
             currentPos = i/3;
             output.put(currentPos, new Prism(list[i], list[i+1], list[i+2]));
@@ -83,9 +100,92 @@ class solve{
         return output;
     }
 
+    /**
+     * Prints the puzzle
+     * @param puzzle
+     */
     public static void printPuzzle(Map<Integer, Prism> puzzle){
+        System.out.println("PUZZLE\n-----------------------\n");
         for(int i = 0; i < 100; i++){
             System.out.println("Prism: " + i + "\tvalues: " + puzzle.get(i).side1 + ", " + puzzle.get(i).side2 + ", " + puzzle.get(i).side3);
         }
+        System.out.println("\n-----------------------\n");
+    }
+
+    /**
+     * Prints the current histogram
+     * @param histogram
+     */
+    public static void printHistogram(Map<Integer, Integer> histogram, int startColor){
+        System.out.println("HISTOGRAM\n-----------------------\n");
+        for(int i = 1; i < startColor; i++){
+          System.out.println("number of times color " + i + " occurs is: " + histogram.get(i));
+        }
+        System.out.println("\n-----------------------\n");
+
+    }
+
+    /**
+     * generates a histogram based on given puzzle
+     * @param puzzle
+     * @return histogram
+     */
+    public static HashMap<Integer, Integer> generateHistogram(Map<Integer, Prism> puzzle){
+        HashMap<Integer, Integer> histogram = new HashMap<Integer, Integer>();
+        
+        for(int i = 0; i<100; i++){
+            Prism currentPrism = puzzle.get(i);
+            for(int j = 1; j <= 3; j++){
+                if(histogram.containsKey(currentPrism.getSide(j))){
+                    histogram.replace(currentPrism.getSide(j), histogram.get(currentPrism.getSide(j)) + 1);
+                } else {
+                    histogram.put(currentPrism.getSide(j), 1);
+                }
+            }
+        }
+
+        return histogram;
+    }
+    
+    /**
+     * find the largest (int) color, used for starting point later on
+     * @param histogram - current histogram
+     * @return integer
+     */
+    public static int largestColor(Map<Integer, Integer> histogram){
+        int largestColor = 1;
+        Set<Integer> keySet = histogram.keySet();
+        for(int key : keySet){
+            if(largestColor < key){
+                largestColor = key;
+            } else{
+                //do nothing
+            }
+        }
+
+        return largestColor;
+    }
+
+    /**
+     * Determines if a color appears more than 3 times, if it does then there is no solution
+     * @param histogram - current histogram
+     * @param startColor - biggest int (color)
+     * @return boolean
+     */
+    public static boolean validHistogram(Map<Integer, Integer> histogram, int startColor){
+        boolean output = true;
+        for(int i = startColor; i > 0; i--){
+            if(histogram.containsKey(i)){
+                if(histogram.get(i) > 3){
+                    output = false;
+                } else {
+                    // still valid
+                }
+            } else {
+              //key doesn't exist  
+            }
+        }
+
+        return output;
     }
 }
