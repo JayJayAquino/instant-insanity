@@ -62,17 +62,50 @@ class solve{
      * Main program
      */
     public static void main(String[] Args){
-        HashMap<Integer, Prism> puzzle = generatePuzzle1();
-        // printPuzzle(puzzle);
-        HashMap<Integer, Integer> histogram = generateHistogram(puzzle);
-        int startingColor = largestColor(histogram);
-        // printHistogram(histogram, startingColor);
-        if(validHistogram(histogram, startingColor)){
+
+        HashMap<Integer, Prism> puzzle1 = generatePuzzle1();
+        printPuzzle(puzzle1);
+        HashMap<Integer, Integer> histogram1 = generateHistogram(puzzle1);
+        int startingColor = largestColor(histogram1);
+        printHistogram(histogram1, startingColor);
+        if(validHistogram(histogram1, startingColor)){
             //find solution
         }else{
             //min obstacle
         }
 
+        HashMap<Integer, Prism> puzzle2 = generatePuzzle2();
+        printPuzzle(puzzle2);
+        HashMap<Integer, Integer> histogram2 = generateHistogram(puzzle2);
+        startingColor = largestColor(histogram2);
+        printHistogram(histogram2, startingColor);
+        if(validHistogram(histogram2, startingColor)){
+            //find solution
+        }else{
+            //min obstacle
+        }
+
+        HashMap<Integer, Prism> puzzle3 = generatePuzzle3();
+        printPuzzle(puzzle3);
+        HashMap<Integer, Integer> histogram3 = generateHistogram(puzzle3);
+        startingColor = largestColor(histogram3);
+        printHistogram(histogram3, startingColor);
+        if(validHistogram(histogram3, startingColor)){
+            //find solution
+        }else{
+            //min obstacle
+        }
+
+        HashMap<Integer, Prism> puzzle4 = generatePuzzle4();
+        printPuzzle(puzzle4);
+        HashMap<Integer, Integer> histogram4 = generateHistogram(puzzle4);
+        startingColor = largestColor(histogram4);
+        printHistogram(histogram4, startingColor);
+        if(validHistogram(histogram4, startingColor)){
+            //find solution
+        }else{
+            //min obstacle
+        }
     }
 
     /**
@@ -89,6 +122,69 @@ class solve{
         //create list of values to be used by puzzle
         for(int i = 1; i <= 300; i++){
             list[i-1] = 1 + (((int) Math.floor(i*Math.PI)) % 100);
+        }
+
+        //generate the puzzle with random colors created
+        for(int i = 0; i < 300; i = i+3){
+            currentPos = i/3;
+            output.put(currentPos, new Prism(list[i], list[i+1], list[i+2]));
+        }
+
+        return output;
+    }
+
+    public static HashMap<Integer, Prism> generatePuzzle2(){
+
+        HashMap <Integer,Prism> output = new HashMap<Integer, Prism>();
+        int currentPos = 0;
+        int[] list = new int[300]; // generate list with indexes 0 - 299
+
+
+        //create list of values to be used by puzzle
+        for(int i = 1; i <= 300; i++){
+            list[i-1] = 1 + (((int) Math.floor(i*Math.E)) % 100);
+        }
+
+        //generate the puzzle with random colors created
+        for(int i = 0; i < 300; i = i+3){
+            currentPos = i/3;
+            output.put(currentPos, new Prism(list[i], list[i+1], list[i+2]));
+        }
+
+        return output;
+    }
+
+    public static HashMap<Integer, Prism> generatePuzzle3(){
+
+        HashMap <Integer,Prism> output = new HashMap<Integer, Prism>();
+        int currentPos = 0;
+        int[] list = new int[300]; // generate list with indexes 0 - 299
+
+
+        //create list of values to be used by puzzle
+        for(int i = 1; i <= 300; i++){
+            list[i-1] = 1 + (((int) Math.floor(i*Math.sqrt(2))) % 100);
+        }
+
+        //generate the puzzle with random colors created
+        for(int i = 0; i < 300; i = i+3){
+            currentPos = i/3;
+            output.put(currentPos, new Prism(list[i], list[i+1], list[i+2]));
+        }
+
+        return output;
+    }
+
+    public static HashMap<Integer, Prism> generatePuzzle4(){
+
+        HashMap <Integer,Prism> output = new HashMap<Integer, Prism>();
+        int currentPos = 0;
+        int[] list = new int[300]; // generate list with indexes 0 - 299
+
+
+        //create list of values to be used by puzzle
+        for(int i = 1; i <= 300; i++){
+            list[i-1] = 1 + (((int) Math.floor(i*Math.sqrt(3))) % 100);
         }
 
         //generate the puzzle with random colors created
