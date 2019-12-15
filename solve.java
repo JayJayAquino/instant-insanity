@@ -70,7 +70,7 @@ class solve{
         int startingColor = largestColor(histogram1);
         printHistogram(histogram1, startingColor);
         if(validHistogram(histogram1, startingColor)){
-            //find solution
+            findSolution(puzzle1);
         }else{
             int problemColor = problemColor(histogram1, startingColor, puzzle1);
             System.out.println("PROBLEM COLOR: " + problemColor);
@@ -84,7 +84,7 @@ class solve{
         startingColor = largestColor(histogram2);
         printHistogram(histogram2, startingColor);
         if(validHistogram(histogram2, startingColor)){
-            //find solution
+            findSolution(puzzle2);
         }else{
             int problemColor2 = problemColor(histogram2, startingColor, puzzle2);
             System.out.println("PROBLEM COLOR: " + problemColor2);
@@ -98,7 +98,7 @@ class solve{
         startingColor = largestColor(histogram3);
         printHistogram(histogram3, startingColor);
         if(validHistogram(histogram3, startingColor)){
-            //find solution
+            findSolution(puzzle3);
         }else{
             int problemColor3 = problemColor(histogram3, startingColor, puzzle3);
             System.out.println("PROBLEM COLOR: " + problemColor3);
@@ -112,7 +112,7 @@ class solve{
         startingColor = largestColor(histogram4);
         printHistogram(histogram4, startingColor);
         if(validHistogram(histogram4, startingColor)){
-            //find solution
+            findSolution(puzzle4);
         }else{
             int problemColor4 = problemColor(histogram4, startingColor, puzzle4);
             System.out.println("PROBLEM COLOR: " + problemColor4);
@@ -371,6 +371,70 @@ class solve{
         }
 
         System.out.println("\n" + "--------------------------------------------" + "\n" + "--------------------------------------------");
+    }
+
+    /**
+     * Solution exists, so print out a list of orientatinos that exhibit a solution
+     * @param puzzle
+     */
+    public static void findSolution(Map<Integer, Prism> puzzle) {
+        boolean foundConflict = false;
+        
+        //perform these checks so long as a conflict is found
+        do {
+            //cycle through each color
+            for(int currentColor = 1; currentColor<101; currentColor++)
+            {
+                boolean foundSide1 = false;
+                boolean foundSide2 = false;
+                boolean foundSide3 = false;
+                //cycle through each prism
+                for(int i = 0; i<100; i++){
+
+                    Prism currentPrism = puzzle.get(i);
+                    
+                    if(currentPrism.getSide(1) == currentColor) {
+                        if(!foundSide1) {
+                            foundSide1 = true;
+                        }
+                        else //the color has already been found on that side
+                        {
+                            foundConflict = true;
+                            currentPrism.rotate();
+                        }
+                    }
+                    if(currentPrism.getSide(2) == currentColor) {
+                        if(!foundSide2) {
+                            foundSide2 = true;
+                        }
+                        else //the color has already been found on that side
+                        {
+                            foundConflict = true;
+                            currentPrism.rotate();
+                        }
+                    }
+                    if(currentPrism.getSide(3) == currentColor) {
+                        if(!foundSide3) {
+                            foundSide3 = true;
+                        }
+                        else //the color has already been found on that side
+                        {
+                            foundConflict = true;
+                            currentPrism.rotate();
+                        }
+                    }
+                }
+            }
+        } while(foundConflict);
+        
+        //print out all prisms and their rotations
+        System.out.println("\nSOLUTION WITH ALL PRISM'S CORRECT ORIENTATIONS\n");
+        System.out.println("================================================\n");
+        for(int i = 0; i<100; i++){
+            Prism currentPrism = puzzle.get(i);
+            System.out.println("PRISM " + i + " WITH ORIENTATION: " + currentPrism.getOrientation() + "\n");
+        }
+        
     }
 
 }
