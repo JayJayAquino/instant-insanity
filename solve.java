@@ -63,6 +63,7 @@ class solve{
      */
     public static void main(String[] Args){
 
+        // PUZZLE 1
         HashMap<Integer, Prism> puzzle1 = generatePuzzle1();
         printPuzzle(puzzle1);
         HashMap<Integer, Integer> histogram1 = generateHistogram(puzzle1);
@@ -71,9 +72,11 @@ class solve{
         if(validHistogram(histogram1, startingColor)){
             //find solution
         }else{
-            //min obstacle
+            int problemColor = problemColor(histogram1, startingColor, puzzle1);
+            printMinObstacle(problemColor, puzzle1);
         }
 
+        // PUZZLE 2
         HashMap<Integer, Prism> puzzle2 = generatePuzzle2();
         printPuzzle(puzzle2);
         HashMap<Integer, Integer> histogram2 = generateHistogram(puzzle2);
@@ -82,9 +85,11 @@ class solve{
         if(validHistogram(histogram2, startingColor)){
             //find solution
         }else{
-            //min obstacle
+            int problemColor = problemColor(histogram1, startingColor, puzzle1);
+            printMinObstacle(problemColor, puzzle1);
         }
 
+        // PUZZLE 3
         HashMap<Integer, Prism> puzzle3 = generatePuzzle3();
         printPuzzle(puzzle3);
         HashMap<Integer, Integer> histogram3 = generateHistogram(puzzle3);
@@ -93,9 +98,11 @@ class solve{
         if(validHistogram(histogram3, startingColor)){
             //find solution
         }else{
-            //min obstacle
+            int problemColor = problemColor(histogram1, startingColor, puzzle1);
+            printMinObstacle(problemColor, puzzle1);
         }
 
+        // PUZZLE 4
         HashMap<Integer, Prism> puzzle4 = generatePuzzle4();
         printPuzzle(puzzle4);
         HashMap<Integer, Integer> histogram4 = generateHistogram(puzzle4);
@@ -104,7 +111,8 @@ class solve{
         if(validHistogram(histogram4, startingColor)){
             //find solution
         }else{
-            //min obstacle
+            int problemColor = problemColor(histogram1, startingColor, puzzle1);
+            printMinObstacle(problemColor, puzzle1);
         }
     }
 
@@ -214,7 +222,7 @@ class solve{
      */
     public static void printHistogram(Map<Integer, Integer> histogram, int startColor){
         System.out.println("HISTOGRAM\n-----------------------\n");
-        for(int i = 1; i < startColor; i++){
+        for(int i = 1; i <= startColor; i++){
           System.out.println("number of times color " + i + " occurs is: " + histogram.get(i));
         }
         System.out.println("\n-----------------------\n");
@@ -284,4 +292,81 @@ class solve{
 
         return output;
     }
+
+    /**
+     * Finds the color that occures the most
+     * @param histogram - current histogram
+     * @param startColor - largist (int) color in the puzzle
+     * @return most occured color (int)
+     */
+    public static int problemColor(Map<Integer, Integer> histogram, int startColor, Map<Integer, Prism> puzzle){
+
+        int numOfProblemPrisms = 4; //biggest min obstacle is 4
+        int result = -1;
+
+        for(int i = startColor; i > 0; i--){
+            if(histogram.containsKey(i)){
+                if(histogram.get(i) > 3){
+                    if(numOfProblemPrisms(i, puzzle) <= numOfProblemPrisms){
+                        numOfProblemPrisms = numOfProblemPrisms(i, puzzle);
+                        result = i;
+                    } else {
+                        // current 'result' has less cubes for min obstacle
+                    }
+                } else {
+                    // current color occurs less than stored result
+                }
+            } else {
+                //key doesnt exist
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Determine the number of prisms that use the "problem" color
+     * @param color - potential problem color
+     * @param puzzle - currnet puzzle
+     * @return (int) num of problem prisms
+     */
+    public static int numOfProblemPrisms(int color, Map<Integer, Prism> puzzle){
+        Set<Integer> keySet = puzzle.keySet();
+        int count = 0;
+        for(int key : keySet){
+            if(puzzle.get(key).side1 == color || puzzle.get(key).side2 == color || puzzle.get(key).side3 == color){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Print the min obstacle subset
+     * @param color - problem color
+     * @param puzzle - current puzzle
+     */
+    public static void printMinObstacle(int color, Map<Integer, Prism> puzzle){
+        System.out.println("\nMIN OBSTACLE: \n");
+        Set<Integer> keySet = puzzle.keySet();
+        int count = 0;
+
+        for(int key : keySet){
+            if(puzzle.get(key).side1 == color || puzzle.get(key).side2 == color || puzzle.get(key).side3 == color){
+                System.out.println("PRISM: " + key);
+                if(puzzle.get(key).side1 == color) count++;
+                if(count > 3) break;
+                if(puzzle.get(key).side2 == color) count++;
+                if(count > 3) break;
+                if(puzzle.get(key).side3 == color) count++;
+                if(count > 3) break;
+            } else {
+                //color is not on the current prism
+            }
+        }
+
+        System.out.println("\n" + "--------------------------------------------" + "\n" + "--------------------------------------------");
+    }
+
 }
