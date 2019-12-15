@@ -5,7 +5,7 @@ import java.util.*;
 class Prism {
 
     int side1, side2, side3;
-    int orientation = -1;
+    int orientation = 0;
     
     public Prism(){
         side1 = -1;
@@ -73,6 +73,7 @@ class solve{
             //find solution
         }else{
             int problemColor = problemColor(histogram1, startingColor, puzzle1);
+            System.out.println("PROBLEM COLOR: " + problemColor);
             printMinObstacle(problemColor, puzzle1);
         }
 
@@ -85,8 +86,9 @@ class solve{
         if(validHistogram(histogram2, startingColor)){
             //find solution
         }else{
-            int problemColor = problemColor(histogram1, startingColor, puzzle1);
-            printMinObstacle(problemColor, puzzle1);
+            int problemColor2 = problemColor(histogram2, startingColor, puzzle2);
+            System.out.println("PROBLEM COLOR: " + problemColor2);
+            printMinObstacle(problemColor2, puzzle2);
         }
 
         // PUZZLE 3
@@ -98,8 +100,9 @@ class solve{
         if(validHistogram(histogram3, startingColor)){
             //find solution
         }else{
-            int problemColor = problemColor(histogram1, startingColor, puzzle1);
-            printMinObstacle(problemColor, puzzle1);
+            int problemColor3 = problemColor(histogram3, startingColor, puzzle3);
+            System.out.println("PROBLEM COLOR: " + problemColor3);
+            printMinObstacle(problemColor3, puzzle3);
         }
 
         // PUZZLE 4
@@ -111,8 +114,9 @@ class solve{
         if(validHistogram(histogram4, startingColor)){
             //find solution
         }else{
-            int problemColor = problemColor(histogram1, startingColor, puzzle1);
-            printMinObstacle(problemColor, puzzle1);
+            int problemColor4 = problemColor(histogram4, startingColor, puzzle4);
+            System.out.println("PROBLEM COLOR: " + problemColor4);
+            printMinObstacle(problemColor4, puzzle4);
         }
     }
 
